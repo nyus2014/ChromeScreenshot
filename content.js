@@ -1,37 +1,44 @@
+document.body.style.background = 'yellow';
+console.log('content script loaded');
+
+/*
+	Detect selected area
+*/
+var startPoint;
+var endPoint;
+document.addEventListener('mousedown', function(loc) {
+	startPoint = {'x':loc.clientX, 'y':loc.clientY};
+	console.log('start point is: '+startPoint);
+});
+
+document.addEventListener('mouseup', function(loc) {
+	endPoint = {'x':loc.clientX, 'y':loc.clientY};
+	console.log('end point is: '+endPoint);
+	informSelectedArea(startPoint, endPoint);
+});
+
+/*
+	Send message
+*/
+function informSelectedArea(start, end) {
+	var object = {'startPoint':start, 'endPoint':end};
+	console.log('informSelectedArea:'+object);
+	chrome.runtime.sendMessage(null, object, function(response) {
+
+	});
+}
+
 // Listen to tapping on "Take Screenshot" button
 
-chrome.runtime.onStartup.addListener(function() {
-  console.log('onStartup');
-});
-
-chrome.runtime.onInstalled.addListener(function() {
-  console.log('onInstalled');
-  chrome.runtime.sendMessage({greeting: "content script onInstalled"}, function(response) {
-    console.log(response.farewell);
-  });
-});
-
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  chrome.tabs.create({url:'www.google.com'});
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "hello") {
-      sendResponse({farewell: "goodbye"});
-    }
-
-    sendResponse({farewell: "goodbye"});
+	console.log('content gets message');
 
     return true;
 });
 
-function listenToTakeScreenshotButtonTapped() {
-
-}
-
 var id = 100;
 function takeScreenShot() {
-  chrome.tabs.captureVisibleTab(function(screenshotUrl) {
+    chrome.tabs.captureVisibleTab(function(screenshotUrl) {
     var viewTabUrl = chrome.extension.getURL('screenshot.html?id=' + id++)
     var targetId = null;
 

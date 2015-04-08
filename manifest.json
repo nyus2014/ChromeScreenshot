@@ -2,14 +2,11 @@
   "name": "Test Screenshot Extension",
   "version": "1.3",
   "description": "Demonstrate screenshot functionality in the chrome.tabs api.",
-  "background": {
-    "persistent": false,
-    "scripts": ["background.js"]
-  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["background.js"]
+      "js": ["content.js"],
+      "run_at":"document_end"
     }
   ],
   "browser_action": {
@@ -18,7 +15,9 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "tabs",
+    "<all_urls>"
   ],
   "manifest_version": 2
 }

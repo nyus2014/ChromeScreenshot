@@ -7,7 +7,7 @@ function handleTakeScreenshotButtonTapped() {
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		document.getElementById('text').textContent = 'url' + tabs[0].url;
 	  chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function(response) {
-	    console.log(response);
+	    console.log('log response from popup.js' + response);
 	  });
 	});
 }
