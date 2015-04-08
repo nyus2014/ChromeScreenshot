@@ -12,19 +12,14 @@ function handleTakeScreenshotButtonTapped() {
 	});
 }
 
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    document.getElementById('text').textContent = (sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "hello") {
-      sendResponse({farewell: "goodbye"});
-    }
-});
-
 document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('text').textContent = 'loaded';
 	document.getElementById('takeScreenshot').addEventListener('click', handleTakeScreenshotButtonTapped);
+});
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+	console.log('popup received a message');
+  sendResponse({'bar': msg.foo});
 });
 
 
