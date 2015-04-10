@@ -13,7 +13,10 @@ document.addEventListener('mousedown', function(loc) {
 document.addEventListener('mouseup', function(loc) {
 	endPoint = {'x':loc.clientX, 'y':loc.clientY};
 	console.log('end point is: '+endPoint);
-	informSelectedArea(startPoint, endPoint);
+	if (Math.abs(endPoint.x - startPoint.x) >= 50 ||
+		Math.abs(endPoint.y - startPoint.y) >= 50) {
+		informSelectedArea(startPoint, endPoint);
+	}
 });
 
 /*
